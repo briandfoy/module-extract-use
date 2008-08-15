@@ -3,3 +3,4 @@ load.t
 pod.t
 pod_coverage.t
 prereq.t
+get_modules.t

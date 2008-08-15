@@ -13,8 +13,9 @@ WriteMakefile(
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
 	
 	'PREREQ_PM'    => { 
-		'PPI'        => '0',
-		'Test::More' => '0',
+		'PPI'          => '0',
+		'Test::More'   => '0',
+		'Test::Output' => '0',
 		},
 
 	'PM'           => {

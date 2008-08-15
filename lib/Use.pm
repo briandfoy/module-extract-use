@@ -27,6 +27,10 @@ Module::Extract::Use - Pull out the modules a module uses
 	
 =head1 DESCRIPTION
 
+Extract the names of the modules used in a file using a static analysis.
+Since this module does not run code, it cannot find dynamic uses of
+modules, such as C<eval "require $class">.
+
 =cut
 
 =over 4
@@ -54,14 +58,13 @@ file does not exist or if it can't parse the file.
 
 sub get_modules {
 	my( $self, $file ) = @_;
-	
-	return unless -e $file;
-	
-	require PPI;
+		
 
 	carp "File does not exist!" unless -e $file;
 	
-	my $Document = PPI::Document->new( $file );
+	require PPI;
+
+	my $Document = eval { PPI::Document->new( $file ) };
 	unless( $Document )
 		{
 		carp( "Could not parse file [$file]" );
@@ -74,9 +77,7 @@ sub get_modules {
 			}
 		);
 	
-	return unless $modules;
-	
-	my @modules = map { $_->module } @$modules;
+	my @modules = eval { map { $_->module } @$modules };
 
 	@modules;
 	}
@@ -85,19 +86,17 @@ sub get_modules {
 
 =head1 TO DO
 
+* Make it recursive, so it scans the source for any module that
+it finds.
 
 =head1 SEE ALSO
 
+L<Module::ScanDeps>
 
 =head1 SOURCE AVAILABILITY
 
-This source is part of a SourceForge project which always has the
-latest sources in CVS, as well as all of the previous releases.
-
-	http://sourceforge.net/projects/brian-d-foy/
-
-If, for some reason, I disappear from the world, one of the other
-members of the project can shepherd this module appropriately.
+I have a git archive for this. If you'd like to clone it,
+just ask.
 
 =head1 AUTHOR
 
