@@ -1,6 +1,10 @@
 0.10_01 - Fri Aug 15 16:09:15 2008
 	* First release of a module to pull out the package names
 
+0.12 - Wed Oct 29 02:40:08 2008
+	* No more carping. Check the value of $object->error after a call
+	to see if anything bad happened.
+
 0.11 - Tue Oct 28 17:25:54 2008
 	* Bump to a release version
 
