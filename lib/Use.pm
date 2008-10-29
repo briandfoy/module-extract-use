@@ -8,7 +8,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 =head1 NAME
 
@@ -68,6 +68,10 @@ sub init
 Returns a list of namespaces explicity use-d in FILE. Returns undef if the
 file does not exist or if it can't parse the file.
 
+Each used namespace is only in the list even if it is used multiple times
+in the file. The order of the list does not correspond to anything so don't
+use the order to infer anything.
+
 =cut
 
 sub get_modules {
@@ -96,7 +100,8 @@ sub get_modules {
 			}
 		);
 	
-	my @modules = eval { map { $_->module } @$modules };
+	my %Seen;
+	my @modules = grep { ! $Seen{$_}++ } eval { map { $_->module } @$modules };
 
 	@modules;
 	}
@@ -126,8 +131,9 @@ L<Module::ScanDeps>
 
 =head1 SOURCE AVAILABILITY
 
-I have a git archive for this. If you'd like to clone it,
-just ask.
+The source code is in Github:
+
+	git://github.com/briandfoy/module--extract--use.git
 
 =head1 AUTHOR
 
