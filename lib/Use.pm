@@ -8,9 +8,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-use Carp qw(carp);
-
-$VERSION = '0.11';
+$VERSION = '0.12';
 
 =head1 NAME
 
@@ -23,6 +21,7 @@ Module::Extract::Use - Pull out the modules a module uses
 	my $extor = Module::Extract::Use->new;
 	
 	my @modules = $extor->get_modules( $file );
+	if( $extor->error ) { ... }
 	
 	
 =head1 DESCRIPTION
@@ -46,7 +45,22 @@ sub new
 	{ 
 	my $class = shift;
 	
-	bless {}, $class;
+	my $self = bless {}, $class;
+	
+	$self->init;
+	
+	$self;
+	}
+
+=item init
+
+Set up the object. You shouldn't need to call this yourself.
+
+=cut
+
+sub init 
+	{ 
+	$_[0]->_clear_error;
 	}
 
 =item get_modules( FILE )
@@ -58,16 +72,21 @@ file does not exist or if it can't parse the file.
 
 sub get_modules {
 	my( $self, $file ) = @_;
-		
 
-	carp "File does not exist!" unless -e $file;
-	
+	$_[0]->_clear_error;
+
+	unless( -e $file )
+		{
+		$self->_set_error( ref( $self ) . ": File [$file] does not exist!" );
+		return;
+		}
+
 	require PPI;
 
 	my $Document = eval { PPI::Document->new( $file ) };
 	unless( $Document )
 		{
-		carp( "Could not parse file [$file]" );
+		$self->_set_error( ref( $self ) . ": Could not parse file [$file]" );
 		return;
 		}
 		
@@ -81,6 +100,18 @@ sub get_modules {
 
 	@modules;
 	}
+
+=item error
+
+Return the error from the last call to C<get_modules>.
+
+=cut
+
+sub _set_error   { $_[0]->{error} = $_[1]; }
+	
+sub _clear_error { $_[0]->{error} = '' }
+
+sub error        { $_[0]->{error} }
 
 =back
 

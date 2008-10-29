@@ -2,7 +2,7 @@
 use strict;
 
 use Test::More 'no_plan';
-use Test::Output;
+use File::Basename;
 
 my $class = "Module::Extract::Use";
 
@@ -18,16 +18,8 @@ can_ok( $extor, 'get_modules' );
 my $not_there = 'not_there';
 ok( ! -e $not_there, "Missing file is actually missing" );
 
-stderr_like
-	{ $extor->get_modules( $not_there ) }
-	qr/does not exist/,
-	"Carps for missing file";
-
-no strict 'refs';
-no warnings 'redefine';
-local *{"${class}::carp"} = sub { '' };
-my $rc = eval { $extor->get_modules( $not_there ) };
-is( $rc, undef, "Returns undef for missing file" );
+$extor->get_modules( $not_there );
+like( $extor->error, qr/does not exist/, "Missing file give right error" );
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -40,16 +32,8 @@ END{ unlink 'empty' }
 my $unparseable = 'empty';
 ok( -e $unparseable, "Unparseable file is there" );
 
-stderr_like
-	{ $extor->get_modules( $unparseable ) }
-	qr/not parse/,
-	"Carps for unparseable file";
-	
-no strict 'refs';
-no warnings 'redefine';
-local *{"${class}::carp"} = sub { '' };
-my $rc = eval { $extor->get_modules( $unparseable ) };
-is( $rc, undef, "Returns undef for unparseable file" );
+$extor->get_modules( $unparseable );
+like( $extor->error, qr/not parse/, "Unparseable file gives right error" );
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -60,9 +44,10 @@ ok( -e $test, "Test file is there" );
 
 my %modules = map { $_, 1 } $extor->get_modules( $test );
 
-foreach my $module ( qw(Test::More Test::Output) )
+foreach my $module ( qw(Test::More File::Basename) )
 	{
 	ok( exists $modules{$module}, "Found $module" );
+	ok( ! $extor->error, "No error for parseable file [$module]")
 	}
 
 }
