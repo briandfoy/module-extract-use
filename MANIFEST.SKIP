@@ -18,3 +18,4 @@ t/\d
 t/cover_db*
 ^cover_db\b
 .git
+Module-*
