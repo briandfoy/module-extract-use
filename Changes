@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+0.13 - Wed Oct 29 14:15:51 2008
+	* Only return unique elements, so remove the duplicates 
+	from the return list
+
 0.12 - Wed Oct 29 02:40:08 2008
 	* No more carping. Check the value of $object->error after a call
 	to see if anything bad happened.
