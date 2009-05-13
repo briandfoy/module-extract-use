@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 
 require 5.006;
 
-eval "use Test::Manifest 1.14";
+eval "use Test::Manifest 1.21";
 
 WriteMakefile(
 	'NAME'	       => 'Module::Extract::Use',
@@ -20,10 +20,6 @@ WriteMakefile(
 
 	'PM'           => {
 		'lib/Use.pm'         => '$(INST_LIBDIR)/Use.pm',
-		},
-
-	'MAN3PODS'     => {
-		'lib/Use.pm' => '$(INST_MAN3DIR)/Module::Extract::Use.3',
 		},
 
 	clean  => { FILES    => q|Module-Extract-Use-*| },
