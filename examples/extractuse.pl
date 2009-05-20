@@ -11,7 +11,7 @@ extractuse - determine what Perl modules are used in a given file
 
 =head1 VERSION
 
-Version 1.0
+Version 1.1
 
 =cut
 
@@ -19,33 +19,24 @@ use version; our $VERSION = qv('1.0');
 
 =head1 SYNOPSIS
 
-Usage: extractuse filename [...]
+Use: extractuse filename [...]
 
-Given a single path referring to a file containing Perl code, this script will
-determine the modules included statically. This means that files included
-by C<use> and C<require> will be retrieved and listed.
+Given filenames, extract and report the Perl modules included 
+with C<use> or C<require>.
 
 =head1 DESCRIPTION
 
-This script is safe because the Perl code is never executed, only parsed by
-C<Module::Extract::Use> or C<Module::ExtractUse>, which are two different
-implementations of this idea. This module will prefer C<Module::Extract::Use>
-if it is installed, because it uses PPI to do its parsing, rather than its
-own separate grammar.
+This script does not execute the code in the files it examines. It
+uses the C<Module::Extract::Use> or C<Module::ExtractUse> modules
+which statically analyze the source without compiling or running it.
+These modules cannot discover modules loaded dynamically through a a
+string eval.
 
-However, one limitation of this script is that only statically included
-modules can be found - that is, they have to be C<use>'d or C<require>'d
-at runtime, and not inside an eval string, for example. Because eval strings
-are completely dynamic, there is no way of determining which modules might
-be loaded under different conditions.
 
 =cut
 
-my @files = @ARGV;
-my $class = 'Module::Extract::Use';
-
 # if no parameters are passed, give usage information
-unless( @files ) 
+unless( @ARGV ) 
 	{
 	pod2usage( msg => 'Please supply at least one filename to analyze' );
 	exit;
@@ -68,7 +59,7 @@ foreach my $module ( @classes )
 die "No usable file scanner module found; exiting...\n" unless defined $object;
 
 
-foreach my $file (@files) 
+foreach my $file ( @ARGV ) 
 	{
 	unless ( -r $file ) 
 		{
@@ -76,7 +67,7 @@ foreach my $file (@files)
 		next;
 		}
 
-	dump_list( $file, $object->$method( $file );
+	dump_list( $file, sort $object->$method( $file ) );
 	}
 	
 
@@ -93,13 +84,13 @@ sub dump_list
 
 	foreach my $module ( @modules ) 
 		{
-		printf " - $module %s\n",
+		printf " - $module%s\n",
 				$corelist
 					?
 					do {
-						my $v = Module::CoreList->first_release( $name );
+						my $v = Module::CoreList->first_release( $module );
 						$core++ if $v;
-						$v ? " (first released with Perl %v)" : '';
+						$v ? " (first released with Perl $v)" : '';
 						}
 					:
 					do { $extern++; '' }
@@ -110,10 +101,11 @@ sub dump_list
 	
 }
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Jonathan Yu C<< <frequency@cpan.org> >>
 
+brian d foy C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
