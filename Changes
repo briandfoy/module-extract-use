@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+0.14 - Wed May 20 07:07:56 2009
+	* Adjust PPI bits to look for 'require' bits too
+	* Add extract_modules example from Jonathan Yu
+
 0.13 - Wed Oct 29 14:15:51 2008
 	* Only return unique elements, so remove the duplicates 
 	from the return list
