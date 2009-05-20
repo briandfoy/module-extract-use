@@ -1,6 +1,6 @@
 Changes
 corpus/Repeated.pm
-examples/placeholder.pl
+examples/extract_modules
 lib/Use.pm
 LICENSE
 Makefile.PL
