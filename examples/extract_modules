@@ -7,21 +7,21 @@ use Pod::Usage;
 
 =head1 NAME
 
-extractuse - determine what Perl modules are used in a given file
+extract_modules - determine which Perl modules a given file uses
 
 =head1 VERSION
 
-Version 1.1
+Version 1.10
 
 =cut
 
-use version; our $VERSION = qv('1.0');
+our $VERSION = '1.10';
 
 =head1 SYNOPSIS
 
-Use: extractuse filename [...]
+Use: extract_modules filename [...]
 
-Given filenames, extract and report the Perl modules included 
+Given Perl files, extract and report the Perl modules included 
 with C<use> or C<require>.
 
 =head1 DESCRIPTION
@@ -31,7 +31,6 @@ uses the C<Module::Extract::Use> or C<Module::ExtractUse> modules
 which statically analyze the source without compiling or running it.
 These modules cannot discover modules loaded dynamically through a a
 string eval.
-
 
 =cut
 
@@ -63,7 +62,7 @@ foreach my $file ( @ARGV )
 	{
 	unless ( -r $file ) 
 		{
-		printf STDERR "Failed to open file '$file' for reading\n";
+		printf STDERR "Could not read $file\n";
 		next;
 		}
 
