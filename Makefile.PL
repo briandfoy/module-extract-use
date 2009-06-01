@@ -22,6 +22,10 @@ WriteMakefile(
 		'lib/Use.pm'         => '$(INST_LIBDIR)/Use.pm',
 		},
 
+	'MAN3PODS'     => {
+		'lib/Use.pm' => '$(INST_MAN3DIR)/Module::Extract::Use.$(MAN3EXT)',
+		},
+		
 	clean  => { FILES    => q|Module-Extract-Use-*| },
 
 	);
