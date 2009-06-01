@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+0.15 - Sun May 31 23:35:10 2009
+	* Debian wants the man pages, so I guess I'll make them
+	after all
+
 0.14 - Wed May 20 07:07:56 2009
 	* Adjust PPI bits to look for 'require' bits too
 	* Add extract_modules example from Jonathan Yu
