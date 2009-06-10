@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+0.16 - Wed Jun 10 00:21:12 2009
+	* Small distro cleanups and new META_MERGE hotness. No need
+	to upgrade.
+
 0.15 - Sun May 31 23:35:10 2009
 	* Debian wants the man pages, so I guess I'll make them
 	after all
