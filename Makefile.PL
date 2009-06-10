@@ -30,7 +30,7 @@ WriteMakefile(
 			resources => {
 		  		repository => 'git://github.com/briandfoy/module--extract--use.git',
 				},
-			keywords => ['testing','STDOUT','STDERR'],
+			keywords => ['ppi', 'parsing', 'static-analysis', 'modules'],
 	  		},
 	 	) 
 	 	: 
