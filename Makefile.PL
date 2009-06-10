@@ -1,4 +1,3 @@
-# $Id: Makefile.PL,v 1.4 2004/07/04 17:04:17 comdog Exp $
 use ExtUtils::MakeMaker;
 
 require 5.006;
@@ -21,6 +20,22 @@ WriteMakefile(
 	'PM'           => {
 		'lib/Use.pm'         => '$(INST_LIBDIR)/Use.pm',
 		},
+
+	(
+	$ExtUtils::MakeMaker::VERSION ge '6.48' ? 
+		(
+		MIN_PERL_VERSION => 5.006,
+
+		META_MERGE       => {
+			resources => {
+		  		repository => 'git://github.com/briandfoy/module--extract--use.git',
+				},
+			keywords => ['testing','STDOUT','STDERR'],
+	  		},
+	 	) 
+	 	: 
+	 	()
+	 ),
 
 	'MAN3PODS'     => {
 		'lib/Use.pm' => '$(INST_MAN3DIR)/Module::Extract::Use.$(MAN3EXT)',
