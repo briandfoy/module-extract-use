@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 
-use Test::More 'no_plan';
+use Test::More tests => 13;
 use File::Basename;
 use File::Spec::Functions qw(catfile);
 
@@ -21,20 +21,6 @@ ok( ! -e $not_there, "Missing file is actually missing" );
 
 $extor->get_modules( $not_there );
 like( $extor->error, qr/does not exist/, "Missing file give right error" );
-}
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Try it with a file PPI can't parse, should fail
-{
-open my($fh), ">", "empty";
-close $fh;
-END{ unlink 'empty' }
-
-my $unparseable = 'empty';
-ok( -e $unparseable, "Unparseable file is there" );
-
-$extor->get_modules( $unparseable );
-like( $extor->error, qr/not parse/, "Unparseable file gives right error" );
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -64,5 +50,4 @@ my @modules = sort { $a cmp $b } $extor->get_modules( $file );
 is( scalar @modules, 3 );
 
 is_deeply( \@modules, [qw(constant strict warnings)] );
-
 }
