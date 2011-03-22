@@ -41,19 +41,18 @@ uses of modules, such as C<eval "require $class">.
 
 =item new
 
-Makes an object. The object doesn't do anything just yet, but you
-need it to call the methods.
+Makes an object. The object doesn't do anything just yet, but you need
+it to call the methods.
 
 =cut
 
-sub new 
-	{ 
+sub new {
 	my $class = shift;
-	
+
 	my $self = bless {}, $class;
-	
+
 	$self->init;
-	
+
 	$self;
 	}
 
@@ -63,8 +62,7 @@ Set up the object. You shouldn't need to call this yourself.
 
 =cut
 
-sub init 
-	{ 
+sub init {
 	$_[0]->_clear_error;
 	}
 
@@ -93,23 +91,52 @@ sub get_modules {
 	require PPI;
 
 	my $Document = eval { PPI::Document->new( $file ) };
-	unless( $Document )
-		{
+	unless( $Document ) {
 		$self->_set_error( ref( $self ) . ": Could not parse file [$file]" );
 		return;
 		}
-		
-	my $modules = $Document->find( 
+
+	my $modules = $Document->find(
 		sub {
-			$_[1]->isa( 'PPI::Statement::Include' )  && 
+			$_[1]->isa( 'PPI::Statement::Include' )  &&
 				( $_[1]->type eq 'use' || $_[1]->type eq 'require' )
 			}
 		);
-	
-	my %Seen;
-	my @modules = grep { ! $Seen{$_}++ } eval { map { $_->module } @$modules };
 
-	@modules;
+	my %Seen;
+	my @modules =
+		grep { ! $Seen{ $_->{module} }++ && $_->{module} }
+		map  {
+			my $hash = {
+				pragma  => $_->pragma,
+				module  => $_->module,
+				imports => [ $self->_list_contents( $_->arguments ) ],
+				version => eval{ $_->module_version->literal || ( undef ) },
+				};
+			} @$modules;
+
+	return \@modules;
+	}
+
+sub _list_contents {
+	my( $self, $node ) = @_;
+
+	eval {
+		if( ! defined $node ) {
+			return;
+			}
+		elsif( $node->isa( 'PPI::Token::QuoteLike::Words' ) ) {
+			( $node->literal )
+			}
+		elsif( $node->isa( 'PPI::Structure::List' ) ) {
+			my $nodes = $node->find( sub{ $_[1]->isa( 'PPI::Token::Quote' ) } );
+			map { $_->string } @$nodes;
+			}
+		elsif( $node->isa( 'PPI::Token::Quote' ) ) {
+			( $node->string );
+			}
+	};
+
 	}
 
 =item error
@@ -119,7 +146,7 @@ Return the error from the last call to C<get_modules>.
 =cut
 
 sub _set_error   { $_[0]->{error} = $_[1]; }
-	
+
 sub _clear_error { $_[0]->{error} = '' }
 
 sub error        { $_[0]->{error} }
@@ -128,8 +155,11 @@ sub error        { $_[0]->{error} }
 
 =head1 TO DO
 
-* Make it recursive, so it scans the source for any module that
-it finds.
+=over 4
+
+=item * Make it recursive, so it scans the source for any module that it finds.
+
+=back
 
 =head1 SEE ALSO
 
