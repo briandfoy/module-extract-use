@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 =head1 NAME
 
@@ -18,16 +18,22 @@ Module::Extract::Use - Pull out the modules a module uses
 	use Module::Extract::Use;
 
 	my $extor = Module::Extract::Use->new;
-	
+
 	my @modules = $extor->get_modules( $file );
 	if( $extor->error ) { ... }
-	
-	
+
+	my @details = $extor->get_modules_with_details( $file );
+	foreach my $detail ( @details ) {
+		printf "%s %s imports %s\n",
+			$detail->module, $detail->version,
+			join ' ', @{ $detail->imports }
+		}
+
 =head1 DESCRIPTION
 
-Extract the names of the modules used in a file using a static analysis.
-Since this module does not run code, it cannot find dynamic uses of
-modules, such as C<eval "require $class">.
+Extract the names of the modules used in a file using a static
+analysis. Since this module does not run code, it cannot find dynamic
+uses of modules, such as C<eval "require $class">.
 
 =cut
 
