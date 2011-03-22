@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+0.18 - Mon Mar 21 22:15:34 2011
+	Implemented get_modules_with_details to extract the 
+	version and import lists for a use().
+
 0.16 - Wed Jun 10 00:21:12 2009
 	* Small distro cleanups and new META_MERGE hotness. No need
 	to upgrade.
