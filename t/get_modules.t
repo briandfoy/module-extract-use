@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 
-use Test::More tests => 13;
+use Test::More tests => 16;
 use File::Basename;
 use File::Spec::Functions qw(catfile);
 
@@ -30,11 +30,14 @@ my $test = $0;
 ok( -e $test, "Test file is there" );
 
 my %modules = map { $_, 1 } $extor->get_modules( $test );
+ok( ! $extor->error, "No error for parseable file [$test]");
 
-foreach my $module ( qw(Test::More File::Basename) )
-	{
+foreach my $module ( qw(Test::More File::Basename File::Spec::Functions strict) ) {
 	ok( exists $modules{$module}, "Found $module" );
-	ok( ! $extor->error, "No error for parseable file [$module]")
+	}
+
+foreach my $module ( qw(Foo Bar::Baz) ) {
+	ok( ! exists $modules{$module}, "Didn't find $module" );
 	}
 
 }

@@ -80,10 +80,46 @@ use the order to infer anything.
 sub get_modules {
 	my( $self, $file ) = @_;
 
-	$_[0]->_clear_error;
+	$self->_clear_error;
 
-	unless( -e $file )
-		{
+	my $details = $self->get_modules_with_details( $file );
+	return unless defined $details;
+
+	my @modules =
+		map { $_->{module} }
+		@$details;
+	}
+
+=item get_modules_with_details( FILE )
+
+Returns a list of hash references, one reference for each namespace
+explicitly use-d in FILE. Each reference has keys for:
+
+	namespace - the namespace, always defined
+	version   - defined if a module version was specified
+	imports   - an array reference to the import list
+
+Each used namespace is only in the list even if it is used multiple
+times in the file. The order of the list does not correspond to
+anything so don't use the order to infer anything.
+
+=cut
+
+sub get_modules_with_details {
+	my( $self, $file ) = @_;
+
+	$self->_clear_error;
+
+	my $modules = $self->_get_ppi_for_file( $file );
+	return unless defined $modules;
+
+	$modules;
+	}
+
+sub _get_ppi_for_file {
+	my( $self, $file ) = @_;
+
+	unless( -e $file ) {
 		$self->_set_error( ref( $self ) . ": File [$file] does not exist!" );
 		return;
 		}
