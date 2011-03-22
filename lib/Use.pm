@@ -131,9 +131,7 @@ L<Module::ScanDeps>
 
 =head1 SOURCE AVAILABILITY
 
-The source code is in Github:
-
-	git://github.com/briandfoy/module--extract--use.git
+The source code is in Github: git://github.com/briandfoy/module-extract-use.git
 
 =head1 AUTHOR
 
