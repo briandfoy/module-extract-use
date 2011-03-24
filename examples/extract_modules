@@ -100,18 +100,6 @@ sub dump_list
 	
 }
 
-=head1 AUTHORS
-
-Jonathan Yu C<< <frequency@cpan.org> >>
-
-brian d foy C<< <bdfoy@cpan.org> >>
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 by Jonathan Yu <frequency@cpan.org>
-
-You can use this script under the same terms as Perl itself.
-
 =head1 SEE ALSO
 
 L<Module::Extract::Use>,
