@@ -7,7 +7,7 @@ eval "use Test::Manifest 1.21";
 WriteMakefile(
 	'NAME'	       => 'Module::Extract::Use',
 	'ABSTRACT'     => 'Extract the modules that a modules uses',
-	'VERSION_FROM' => 'lib/Use.pm',
+	'VERSION_FROM' => 'lib/Module/Extract/Use.pm',
 	'LICENSE'      => 'perl',
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
 	
@@ -15,10 +15,6 @@ WriteMakefile(
 		'PPI'          => '0',
 		'Test::More'   => '0',
 		'Test::Output' => '0',
-		},
-
-	'PM'           => {
-		'lib/Use.pm'         => '$(INST_LIBDIR)/Use.pm',
 		},
 
 	(
@@ -36,10 +32,6 @@ WriteMakefile(
 	 	: 
 	 	()
 	 ),
-
-	'MAN3PODS'     => {
-		'lib/Use.pm' => '$(INST_MAN3DIR)/Module::Extract::Use.$(MAN3EXT)',
-		},
 		
 	clean  => { FILES    => q|Module-Extract-Use-*| },
 
