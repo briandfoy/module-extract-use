@@ -1,5 +1,10 @@
 # Changes for Module::Extract::Use
 
+1.01 - Wed Mar 30 22:28:30 2011
+	* Promote to a stable version
+	* Some files moved around, and I updated the copyright statements
+	for downstream ease.
+
 0.18 - Mon Mar 21 22:15:34 2011
 	Implemented get_modules_with_details to extract the 
 	version and import lists for a use().
