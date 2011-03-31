@@ -139,6 +139,8 @@ sub _get_ppi_for_file {
 			}
 		);
 
+	return unless $modules;
+
 	my %Seen;
 	my @modules =
 		grep { ! $Seen{ $_->{module} }++ && $_->{module} }
