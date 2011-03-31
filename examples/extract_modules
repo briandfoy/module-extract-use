@@ -35,8 +35,7 @@ string eval.
 =cut
 
 # if no parameters are passed, give usage information
-unless( @ARGV ) 
-	{
+unless( @ARGV ) {
 	pod2usage( msg => 'Please supply at least one filename to analyze' );
 	exit;
 	}
@@ -48,8 +47,7 @@ my %methods = qw(
 	Module::ExtractUse   extract_use
 	);
 	
-foreach my $module ( @classes )
-	{
+foreach my $module ( @classes ) {
 	eval "require $module";
 	next if $@;
 	( $object, $method ) = ( $module->new, $methods{$module} );
@@ -58,10 +56,8 @@ foreach my $module ( @classes )
 die "No usable file scanner module found; exiting...\n" unless defined $object;
 
 
-foreach my $file ( @ARGV ) 
-	{
-	unless ( -r $file ) 
-		{
+foreach my $file ( @ARGV ) {
+	unless ( -r $file ) {
 		printf STDERR "Could not read $file\n";
 		next;
 		}
@@ -73,16 +69,14 @@ foreach my $file ( @ARGV )
 BEGIN {
 my $corelist = eval { require Module::CoreList };
 
-sub dump_list 
-	{
+sub dump_list {
 	my( $file, @modules ) = @_;
 
 	printf "Modules required by %s:\n", $file;
 
 	my( $core, $extern ) = ( 0, 0 );
 
-	foreach my $module ( @modules ) 
-		{
+	foreach my $module ( @modules ) {
 		printf " - $module%s\n",
 				$corelist
 					?
@@ -108,7 +102,7 @@ brian d foy C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 by Jonathan Yu <frequency@cpan.org>
+Copyright 2009 by brian d foy <bdfoy@cpan.org>
 
 You can use this script under the same terms as Perl itself.
 
