@@ -1,5 +1,8 @@
 # Changes for Module::Extract::Use
 
+1.02 - Tue Nov  1 11:02:58 2011
+	* Adjusted no_index. No code changes.
+
 1.01 - Wed Mar 30 22:28:30 2011
 	* Promote to a stable version
 	* Some files moved around, and I updated the copyright statements
