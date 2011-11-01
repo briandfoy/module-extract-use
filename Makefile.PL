@@ -1,6 +1,6 @@
 use ExtUtils::MakeMaker;
 
-require 5.006;
+require 5.008;
 
 eval "use Test::Manifest 1.21";
 
@@ -26,7 +26,11 @@ WriteMakefile(
 			resources => {
 		  		repository => 'git://github.com/briandfoy/module--extract--use.git',
 				},
-			keywords => ['ppi', 'parsing', 'static-analysis', 'modules'],
+			keywords => [ qw( ppi parsing static-analysis modules ) ],
+			no_index => {
+				dir       => [ qw(corpus) ],
+				directory => [ qw(corpus) ],
+				},
 	  		},
 	 	) 
 	 	: 
