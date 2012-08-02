@@ -22,8 +22,8 @@ Module::Extract::Use - Pull out the modules a module uses
 	my @modules = $extor->get_modules( $file );
 	if( $extor->error ) { ... }
 
-	my @details = $extor->get_modules_with_details( $file );
-	foreach my $detail ( @details ) {
+	my $details = $extor->get_modules_with_details( $file );
+	foreach my $detail ( @$details ) {
 		printf "%s %s imports %s\n",
 			$detail->module, $detail->version,
 			join ' ', @{ $detail->imports }
