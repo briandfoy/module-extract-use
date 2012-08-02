@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.02';
+$VERSION = '1.03';
 
 =head1 NAME
 
@@ -223,7 +223,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2008-2011, brian d foy, All Rights Reserved.
+Copyright (c) 2008-2012, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
