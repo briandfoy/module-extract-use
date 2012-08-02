@@ -145,16 +145,25 @@ sub _get_ppi_for_file {
 	my @modules =
 		grep { ! $Seen{ $_->{module} }++ && $_->{module} }
 		map  {
-			my $hash = {
+			my $hash = bless {
 				pragma  => $_->pragma,
 				module  => $_->module,
 				imports => [ $self->_list_contents( $_->arguments ) ],
 				version => eval{ $_->module_version->literal || ( undef ) },
-				};
+				}, 'Module::Extract::Use::Item';
 			} @$modules;
 
 	return \@modules;
 	}
+
+BEGIN {
+package Module::Extract::Use::Item;
+
+sub pragma  { $_[0]->{pragma}  }
+sub module  { $_[0]->{module}  }
+sub imports { $_[0]->{imports} }
+sub version { $_[0]->{version} }
+}
 
 sub _list_contents {
 	my( $self, $node ) = @_;
