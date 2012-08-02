@@ -5,3 +5,4 @@ cover_db
 pm_to_blib
 *.bak
 .DS_Store
+MYMETA*
