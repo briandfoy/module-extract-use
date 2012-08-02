@@ -98,6 +98,7 @@ explicitly use-d in FILE. Each reference has keys for:
 	namespace - the namespace, always defined
 	version   - defined if a module version was specified
 	imports   - an array reference to the import list
+	pragma    - true if the module thinks this namespace is a pragma
 
 Each used namespace is only in the list even if it is used multiple
 times in the file. The order of the list does not correspond to
