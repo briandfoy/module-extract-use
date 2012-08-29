@@ -11,7 +11,7 @@ $VERSION = '1.03';
 
 =head1 NAME
 
-Module::Extract::Use - Pull out the modules a module uses
+Module::Extract::Use - Pull out the modules a module explicitly uses
 
 =head1 SYNOPSIS
 
@@ -33,7 +33,10 @@ Module::Extract::Use - Pull out the modules a module uses
 
 Extract the names of the modules used in a file using a static
 analysis. Since this module does not run code, it cannot find dynamic
-uses of modules, such as C<eval "require $class">.
+uses of modules, such as C<eval "require $class">. It only reports modules
+that the file loads directly. Modules loaded with C<parent> or C<base>,
+for instance, will will be in the import list for those pragmas but
+won't have separate entries in the data this module returns.
 
 =cut
 

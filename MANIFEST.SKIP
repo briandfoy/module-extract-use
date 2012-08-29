@@ -14,8 +14,8 @@ CVS
 \.svn
 pm_to_blib
 \.old$
-t/\d
+\bt/\d
 t/cover_db
 ^cover_db\b
-.git
+\.git
 Module-.*
