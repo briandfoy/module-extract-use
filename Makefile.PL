@@ -24,7 +24,7 @@ WriteMakefile(
 
 		META_MERGE       => {
 			resources => {
-		  		repository => 'git://github.com/briandfoy/module--extract--use.git',
+		  		repository => 'git://github.com/briandfoy/module-extract-use.git',
 				},
 			keywords => [ qw( ppi parsing static-analysis modules ) ],
 			no_index => {
