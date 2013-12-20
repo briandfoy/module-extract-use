@@ -1,4 +1,4 @@
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.48;
 
 require 5.008;
 
@@ -17,26 +17,20 @@ WriteMakefile(
 		'Test::Output' => '0',
 		},
 
-	(
-	$ExtUtils::MakeMaker::VERSION ge '6.48' ? 
-		(
-		MIN_PERL_VERSION => 5.006,
-
-		META_MERGE       => {
-			resources => {
-		  		repository => 'git://github.com/briandfoy/module--extract--use.git',
+	META_MERGE       => {
+		resources => {
+			repository => {
+				type => 'git',
+				url  => 'git@github.com:briandfoy/module-extract-use.git',
+				web  => 'https://github.com/briandfoy/module-extract-use',
 				},
-			keywords => [ qw( ppi parsing static-analysis modules ) ],
-			no_index => {
-				dir       => [ qw(corpus) ],
-				directory => [ qw(corpus) ],
-				},
-	  		},
-	 	) 
-	 	: 
-	 	()
-	 ),
+			},
+		keywords => [ qw( ppi parsing static-analysis modules ) ],
+		no_index => {
+			dir       => [ qw(corpus) ],
+			directory => [ qw(corpus) ],
+			},
+		},
 		
 	clean  => { FILES    => q|Module-Extract-Use-*| },
-
 	);
