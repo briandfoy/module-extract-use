@@ -150,6 +150,7 @@ sub _get_ppi_for_file {
 		grep { ! $Seen{ $_->{module} }++ && $_->{module} }
 		map  {
 			my $hash = bless {
+				content => $_->content,
 				pragma  => $_->pragma,
 				module  => $_->module,
 				imports => [ $self->_list_contents( $_->arguments ) ],
