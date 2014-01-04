@@ -1,5 +1,9 @@
 # Changes for Module::Extract::Use
 
+1.04 - Sat Jan  4 06:19:01 2014
+	* Get rid of MYMETA
+	* Update test data structures for latest behavior
+
 1.03 - Thu Aug  2 11:40:34 2012
 	* Note the "pragma" field in the module details (RT 78728)
 
