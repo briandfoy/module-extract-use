@@ -22,6 +22,7 @@ ok( -e $file, "Test file [$file] is there" );
 
 my $details = $extor->get_modules_with_details( $file );
 is( scalar @$details, 3 );
+#diag( Dumper( $details ) ); use Data::Dumper;
 
 is_deeply( $details, expected() );
 print Dumper( $details ), "\n"; use Data::Dumper;
@@ -31,22 +32,25 @@ print Dumper( $details ), "\n"; use Data::Dumper;
 sub expected {
 	return  [
           {
-            'pragma' => '',
+            'content' => 'use HTTP::Size 1.23;',
+            'pragma'  => '',
             'version' => '1.23',
             'imports' => [],
-            'module' => 'HTTP::Size'
+            'module'  => 'HTTP::Size'
           },
           {
-            'pragma' => '',
+            'content' => 'use YAML::Syck 1.54 qw(LoadFile);',
+            'pragma'  => '',
             'version' => '1.54',
             'imports' => [ qw(LoadFile) ],
-            'module' => 'YAML::Syck'
+            'module'  => 'YAML::Syck'
           },
           {
-            'pragma' => '',
+            'content' => 'use LWP::Simple 6.1 qw(getstore);',
+            'pragma'  => '',
             'version' => '6.1',
             'imports' => [ qw(getstore) ],
-            'module' => 'LWP::Simple'
+            'module'  => 'LWP::Simple'
           }
         ];
 

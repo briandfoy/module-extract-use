@@ -22,6 +22,7 @@ ok( -e $file, "Test file [$file] is there" );
 
 my $details = $extor->get_modules_with_details( $file );
 is( scalar @$details, 10, 'There are the right number of hits' );
+#diag( Dumper( $details ) ); use Data::Dumper;
 
 is_deeply( $details, expected(), 'The data structures match' );
 }
@@ -33,9 +34,11 @@ sub expected {
             'pragma' => '',
             'version' => undef,
             'imports' => [],
-            'module' => 'URI'
+            'module' => 'URI',
+            'content' => 'use URI;',
           },
           {
+            'content' => 'use CGI qw(:standard);',
             'pragma' => '',
             'version' => undef,
             'imports' => [
@@ -44,6 +47,7 @@ sub expected {
             'module' => 'CGI'
           },
           {
+            'content' => 'use LWP::Simple 1.23 qw(getstore);',
             'pragma' => '',
             'version' => '1.23',
             'imports' => [
@@ -52,6 +56,7 @@ sub expected {
             'module' => 'LWP::Simple'
           },
           {
+            'content' => 'use File::Basename (\'basename\', \'dirname\');',
             'pragma' => '',
             'version' => undef,
             'imports' => [
@@ -61,6 +66,7 @@ sub expected {
             'module' => 'File::Basename'
           },
           {
+            'content' => 'use File::Spec::Functions qw(catfile rel2abs);',
             'pragma' => '',
             'version' => undef,
             'imports' => [
@@ -70,6 +76,7 @@ sub expected {
             'module' => 'File::Spec::Functions'
           },
           {
+            'content' => 'use autodie \':open\';',
             'pragma' => 'autodie',
             'version' => undef,
             'imports' => [
@@ -78,6 +85,7 @@ sub expected {
             'module' => 'autodie'
           },
           {
+            'content' => 'use strict q\'refs\';',
             'pragma' => 'strict',
             'version' => undef,
             'imports' => [
@@ -86,7 +94,8 @@ sub expected {
             'module' => 'strict'
           },
           {
-            'pragma' => 'warnings',
+            'content' => 'use warnings q<redefine>;',
+            'pragma'  => 'warnings',
             'version' => undef,
             'imports' => [
                            'redefine'
@@ -94,7 +103,8 @@ sub expected {
             'module' => 'warnings'
           },
           {
-            'pragma' => '',
+            'content' => 'use Buster "brush";',
+            'pragma'  => '',
             'version' => undef,
             'imports' => [
                            'brush'
@@ -102,7 +112,8 @@ sub expected {
             'module' => 'Buster'
           },
           {
-            'pragma' => '',
+            'content' => 'use Mimi qq{string};',
+            'pragma'  => '',
             'version' => undef,
             'imports' => [
                            'string'
