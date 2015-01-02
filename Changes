@@ -16,7 +16,7 @@
 	for downstream ease.
 
 0.18 - Mon Mar 21 22:15:34 2011
-	Implemented get_modules_with_details to extract the 
+	Implemented get_modules_with_details to extract the
 	version and import lists for a use().
 
 0.16 - Wed Jun 10 00:21:12 2009
@@ -32,7 +32,7 @@
 	* Add extract_modules example from Jonathan Yu
 
 0.13 - Wed Oct 29 14:15:51 2008
-	* Only return unique elements, so remove the duplicates 
+	* Only return unique elements, so remove the duplicates
 	from the return list
 
 0.12 - Wed Oct 29 02:40:08 2008
