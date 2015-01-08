@@ -2,31 +2,49 @@ require 5.008;
 use strict;
 use warnings;
 
-my $github    = 'https://github.com/briandfoy/';
-my $main_file = 'lib/';
+use File::Spec::Functions qw(catfile);
+
+my $module    = 'Module::Extract::Use';
+my $github    = 'https://github.com/briandfoy/module-extract-use';
+my $main_file = catfile( 'lib', split /::/, "$module.pm" );
 
 my %WriteMakefile = (
-	'NAME'	       => 'Module::Extract::Use',
+	'NAME'	        => $module,
 	'ABSTRACT_FROM' => $main_file,
-	'VERSION_FROM' => 'lib/Module/Extract/Use.pm',
-	'LICENSE'      => 'perl',
-	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
-	
-	'PREREQ_PM'    => { 
-		'PPI'          => '0',
-		'Test::More'   => '0',
+	'VERSION_FROM'  => 'lib/Module/Extract/Use.pm',
+	'LICENSE'       => 'perl',
+	'AUTHOR'        => 'brian d foy <bdfoy@cpan.org>',
+
+	'CONFIGURE_REQUIRES' => {
+		'ExtUtils::MakeMaker' => '6.64',
+		},
+
+	'BUILD_REQUIRES' => {
+		},
+
+	'TEST_REQUIRES' => {
+		'Test::More' => '0.94',
 		'Test::Output' => '0',
 		},
 
-	META_MERGE       => {
+	'PREREQ_PM'     => {
+		'PPI'          => '0',
+		},
+
+	'META_MERGE' => {
+		'meta-spec' => { version => 2 },
+		keywords => [ qw( ppi parsing static-analysis modules ) ],
 		resources => {
 			repository => {
 				type => 'git',
-				url  => 'git@github.com:briandfoy/module-extract-use.git',
-				web  => 'https://github.com/briandfoy/module-extract-use',
+				url  => "$github.git",
+				web  => $github,
 				},
+			bugtraker => {
+				web    => "$github/issues",
+				},
+			homepage => $github,
 			},
-		keywords => [ qw( ppi parsing static-analysis modules ) ],
 		no_index => {
 			dir       => [ qw(corpus) ],
 			directory => [ qw(corpus) ],
