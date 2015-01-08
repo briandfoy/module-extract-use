@@ -1,10 +1,12 @@
 require 5.008;
+
+package Module::Extract::Use;
 use strict;
 use warnings;
 
 use File::Spec::Functions qw(catfile);
 
-my $module    = 'Module::Extract::Use';
+my $module    = __PACKAGE__;
 my $github    = 'https://github.com/briandfoy/module-extract-use';
 my $main_file = catfile( 'lib', split /::/, "$module.pm" );
 
@@ -16,7 +18,8 @@ my %WriteMakefile = (
 	'AUTHOR'        => 'brian d foy <bdfoy@cpan.org>',
 
 	'CONFIGURE_REQUIRES' => {
-		'ExtUtils::MakeMaker' => '6.64',
+		'ExtUtils::MakeMaker'   => '6.64',
+		'File::Spec::Functions' => '0',
 		},
 
 	'BUILD_REQUIRES' => {
