@@ -5,6 +5,8 @@ use warnings;
 use File::Spec::Functions qw(catfile);
 
 my $module    = 'Module::Extract::Use';
+( my $dist = $module ) =~ s/::/-/g;
+
 my $github    = 'https://github.com/briandfoy/module-extract-use';
 my $main_file = catfile( 'lib', split /::/, "$module.pm" );
 
