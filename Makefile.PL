@@ -54,7 +54,7 @@ my %WriteMakefile = (
 			},
 		},
 		
-	clean  => { FILES    => q|Module-Extract-Use-*| },
+	clean => { FILES => "$dist-*" },
 	);
 
 sub arguments { \%WriteMakefile }
