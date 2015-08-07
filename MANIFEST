@@ -4,6 +4,7 @@ corpus/PackageVersion.pm
 corpus/Repeated.pm
 corpus/RT79273.pm
 examples/extract_modules
+INSTALL.SKIP
 lib/Module/Extract/Use.pm
 LICENSE
 Makefile.PL
