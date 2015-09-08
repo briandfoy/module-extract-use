@@ -9,6 +9,8 @@ use vars qw($VERSION);
 
 $VERSION = '1.04';
 
+=encoding utf8
+
 =head1 NAME
 
 Module::Extract::Use - Pull out the modules a module explicitly uses
