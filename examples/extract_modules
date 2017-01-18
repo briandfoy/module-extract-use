@@ -1,35 +1,68 @@
 #!/usr/bin/perl
 
+use open qw(:std :utf8);
 use strict;
 use warnings;
 
 use Pod::Usage;
+use Getopt::Std qw(getopts);
 
 =head1 NAME
 
 extract_modules - determine which Perl modules a given file uses
 
-=head1 VERSION
-
-Version 1.10
-
 =cut
 
-our $VERSION = '1.10';
+our $VERSION = '1.101';
+
+getopts('jl0', \my %opts);
 
 =head1 SYNOPSIS
 
-Use: extract_modules filename [...]
-
-Given Perl files, extract and report the Perl modules included 
+Given Perl files, extract and report the Perl modules included
 with C<use> or C<require>.
+
+	# print a verbose text listing
+	$ extract_modules filename [...]
+	Modules required by examples/extract_modules:
+	 - Getopt::Std (first released with Perl 5)
+	 - Module::CoreList (first released with Perl 5.008009)
+	 - Pod::Usage (first released with Perl 5.006)
+	 - strict (first released with Perl 5)
+	 - warnings (first released with Perl 5.006)
+	5 module(s) in core, 0 external module(s)
+
+	# print a succint list, one module per line
+	$ extract_modules -l filename [...]
+	Getopt::Std
+	Module::CoreList
+	Pod::Usage
+	open
+	strict
+	warnings
+
+	# print a succint list, modules separated by null bytes
+	# you might like this with xargs -0
+	$ extract_modules -l -0 filename [...]
+	Getopt::StdModule::CoreListPod::Usageopenstrictwarnings
+
+	# print the modules list as JSON
+	$ extract_modules -j filename [...]
+	[
+		"Getopt::Std",
+		"Module::CoreList",
+		"Pod::Usage",
+		"open",
+		"strict",
+		"warnings"
+	]
 
 =head1 DESCRIPTION
 
 This script does not execute the code in the files it examines. It
 uses the C<Module::Extract::Use> or C<Module::ExtractUse> modules
 which statically analyze the source without compiling or running it.
-These modules cannot discover modules loaded dynamically through a a
+These modules cannot discover modules loaded dynamically through a
 string eval.
 
 =cut
@@ -46,14 +79,18 @@ my %methods = qw(
 	Module::Extract::Use get_modules
 	Module::ExtractUse   extract_use
 	);
-	
+
 foreach my $module ( @classes ) {
 	eval "require $module";
 	next if $@;
 	( $object, $method ) = ( $module->new, $methods{$module} );
-	}	
+	}
 
-die "No usable file scanner module found; exiting...\n" unless defined $object;
+die "No usable file scanner module found; exiting...\n" .
+	"Install one of these modules to make this program work:\n" .
+	join( "\n\t", sort keys %methods ) .
+	"\n"
+	unless defined $object;
 
 
 foreach my $file ( @ARGV ) {
@@ -62,14 +99,30 @@ foreach my $file ( @ARGV ) {
 		next;
 		}
 
-	dump_list( $file, sort $object->$method( $file ) );
+	my @modules = sort $object->$method( $file );
+
+	if( $opts{l} )    { short_list( @modules ) }
+	elsif( $opts{j} ) {	json_list( @modules ) }
+	else              { long_list( $file, @modules ) }
 	}
-	
+
+
+sub short_list {
+	my $glue = $opts{0} ? "\000" : "\n";
+	print join( $glue, @_ ), "\n";
+	}
+
+sub json_list {
+	my $glue = $opts{0} ? "\000" : "\n";
+	print "[\n\t",
+	join( ",\n\t", map { qq("$_") } sort @_ ),
+	"\n]\n";
+	}
 
 BEGIN {
 my $corelist = eval { require Module::CoreList };
 
-sub dump_list {
+sub long_list {
 	my( $file, @modules ) = @_;
 
 	printf "Modules required by %s:\n", $file;
@@ -78,20 +131,20 @@ sub dump_list {
 
 	foreach my $module ( @modules ) {
 		printf " - $module%s\n",
-				$corelist
-					?
-					do {
-						my $v = Module::CoreList->first_release( $module );
-						$core++ if $v;
-						$v ? " (first released with Perl $v)" : '';
-						}
-					:
-					do { $extern++; '' }
+			$corelist
+				?
+				do {
+					my $v = Module::CoreList->first_release( $module );
+					$core++ if $v;
+					$v ? " (first released with Perl $v)" : '';
+					}
+				:
+				do { $extern++; '' }
 		}
 
 	printf "%d module(s) in core, %d external module(s)\n\n", $core, $extern;
 	}
-	
+
 }
 
 =head1 AUTHORS
@@ -102,7 +155,7 @@ brian d foy C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright © 2009-2015, brian d foy <bdfoy@cpan.org>. All rights reserved.
+Copyright © 2009-2017, brian d foy <bdfoy@cpan.org>. All rights reserved.
 
 You can use this script under the same terms as Perl itself.
 
