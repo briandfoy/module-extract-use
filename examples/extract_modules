@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use v5.10;
+
 use open qw(:std :utf8);
 use strict;
 use warnings;
@@ -41,9 +43,9 @@ with C<use> or C<require>.
 	strict
 	warnings
 
-	# print a succint list, modules separated by null bytes
+	# print a succinct list, modules separated by null bytes
 	# you might like this with xargs -0
-	$ extract_modules -l -0 filename [...]
+	$ extract_modules -0 filename [...]
 	Getopt::StdModule::CoreListPod::Usageopenstrictwarnings
 
 	# print the modules list as JSON
@@ -93,29 +95,39 @@ die "No usable file scanner module found; exiting...\n" .
 	unless defined $object;
 
 
+my @Grand_modules;
 foreach my $file ( @ARGV ) {
 	unless ( -r $file ) {
 		printf STDERR "Could not read $file\n";
 		next;
 		}
 
-	my @modules = sort $object->$method( $file );
+	my @modules = $object->$method( $file );
+	push @Grand_modules, @modules;
 
-	if( $opts{l} )    { short_list( @modules ) }
-	elsif( $opts{j} ) {	json_list( @modules ) }
-	else              { long_list( $file, @modules ) }
+	next if  $opts{j} || $opts{l} || $opts{0}; # do these after
+
+	long_list( $file, @modules )
 	}
+
+# Handle these options after going through all the files
+   if( $opts{l} or $opts{0} ) { short_list( @Grand_modules ) }
+elsif( $opts{j} )             { json_list( @Grand_modules ) }
 
 
 sub short_list {
+	state $Seen = {};
+
 	my $glue = $opts{0} ? "\000" : "\n";
-	print join( $glue, @_ ), "\n";
+	print join( $glue, grep( { ! $Seen->{$_}++ } sort @_), '' );
 	}
 
 sub json_list {
+	state $Seen = {};
+
 	my $glue = $opts{0} ? "\000" : "\n";
 	print "[\n\t",
-	join( ",\n\t", map { qq("$_") } sort @_ ),
+	join( ",\n\t", map { qq("$_") } grep { ! $Seen->{$_}++ } sort @_ ),
 	"\n]\n";
 	}
 
