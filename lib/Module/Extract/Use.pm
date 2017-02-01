@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.04';
+$VERSION = '1.041';
 
 =encoding utf8
 
@@ -221,7 +221,9 @@ L<Module::ScanDeps>
 
 =head1 SOURCE AVAILABILITY
 
-The source code is in Github: git://github.com/briandfoy/module-extract-use.git
+The source code is in Github:
+
+	git://github.com/briandfoy/module-extract-use.git
 
 =head1 AUTHOR
 
@@ -229,7 +231,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2015, brian d foy <bdfoy@cpan.org>. All rights reserved.
+Copyright © 2008-2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
