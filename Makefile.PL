@@ -66,6 +66,7 @@ my %WriteMakefile = (
 		},
 
 	'PREREQ_PM'     => {
+		'Getopt::Std'  => '0',
 		'PPI'          => '0',
 		},
 
