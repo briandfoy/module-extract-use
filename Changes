@@ -1,5 +1,8 @@
 Revision history for Perl module Module::Extract::Use
 
+1.043 2017-02-03T03:24:02Z
+	* Clarified license (GitHub issue #3 https://github.com/briandfoy/module-extract-use/issues/3)
+
 1.042 2017-02-01T02:46:27Z
 	* The -l and -j options work on the list of namespaces from all 
 	files together instead of the list per file. Otherwise strict 
