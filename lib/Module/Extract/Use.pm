@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.042';
+$VERSION = '1.043';
 
 =encoding utf8
 
@@ -233,7 +233,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 Copyright © 2008-2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
 
-You may redistribute this under the same terms as Perl itself.
+This project is under the Artistic License 2.0.
 
 =cut
 
