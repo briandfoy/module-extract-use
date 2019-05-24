@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 
-use Test::More tests => 6;
+use Test::More 1.0;
 use File::Basename;
 use File::Spec::Functions qw(catfile);
 
@@ -55,3 +55,5 @@ sub expected {
         ];
 
 	}
+
+done_testing();
