@@ -1,5 +1,8 @@
 Revision history for Perl module Module::Extract::Use
 
+1.044 2019-12-18T02:38:56Z
+	* Bump this to a user release.
+
 1.043_02 2019-12-17T12:55:00Z
 	* Small fixes
 
