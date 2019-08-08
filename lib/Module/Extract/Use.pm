@@ -7,13 +7,13 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.043_02';
+$VERSION = '1.044';
 
 =encoding utf8
 
 =head1 NAME
 
-Module::Extract::Use - Pull out the modules a module explicitly uses
+Module::Extract::Use - Discover the modules a module explicitly uses
 
 =head1 SYNOPSIS
 
@@ -38,6 +38,51 @@ analysis. Since this module does not run code, it cannot find dynamic
 uses of modules, such as C<eval "require $class">. It only reports modules
 that the file loads directly or are in the import lists for L<parent>
 or L<base>.
+
+The module can handle the conventional inclusion of modules with either
+C<use> or C<require> as the statement:
+
+	use Foo;
+	require Foo;
+
+	use Foo 1.23;
+	use Foo qw(this that);
+
+It now finds C<require> as an expression, which is useful to lazily
+load a module once (and may be faster):
+
+	sub do_something {
+		state $rc = require Foo;
+		...
+		}
+
+Additionally, it finds module names used with C<parent> and C<base>,
+either of which establish an inheritance relationship:
+
+	use parent qw(Foo);
+	use base qw(Foo);
+
+In the case of namespaces found in C<base> or C<parent>, the value of
+the C<direct> method is false. In all other cases, it is true. You
+can then skip those namespaces:
+
+	my $details = $extor->get_modules_with_details( $file );
+	foreach my $detail ( @$details ) {
+		next unless $detail->direct;
+
+		...
+		}
+
+This module does not discover runtime machinations to load something,
+such as string evals:
+
+	eval "use Foo";
+
+	my $bar = 'Bar';
+	eval "use $bar";
+
+If you want that, you might consider L<Module::ExtractUse> (a confusingly
+similar name).
 
 =cut
 
