@@ -57,5 +57,15 @@ subtest repeated => sub {
 	is_deeply( \@modules, [qw(constant strict warnings)] );
 	};
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+subtest rt79273 => sub {
+	my $file = catfile( qw(corpus RT79273.pm) );
+	ok( -e $file, "Test file [$file] is there" );
+
+	my @modules = sort { $a cmp $b } $extor->get_modules( $file );
+	is( scalar @modules, 2 );
+
+	is_deeply( \@modules, [qw(Capture::Tiny parent)] );
+	};
 
 done_testing();
