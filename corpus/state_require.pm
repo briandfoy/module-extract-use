@@ -4,3 +4,5 @@ sub do_it {
 	}
 
 my $rc = require Mojo::Util;
+
+1;

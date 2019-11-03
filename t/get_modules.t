@@ -68,4 +68,15 @@ subtest rt79273 => sub {
 	is_deeply( \@modules, [qw(Capture::Tiny parent)] );
 	};
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+subtest expression => sub {
+	my $file = catfile( qw(corpus state_require.pm) );
+	ok( -e $file, "Test file [$file] is there" );
+
+	my @modules = sort { $a cmp $b } $extor->get_modules( $file );
+	is( scalar @modules, 2 );
+
+	is_deeply( \@modules, [qw(ConfigReader::Simple Mojo::Util)] );
+	};
+
 done_testing();
