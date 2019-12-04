@@ -223,7 +223,7 @@ L<Module::ScanDeps>
 
 The source code is in Github:
 
-	git://github.com/briandfoy/module-extract-use.git
+	https://github.com/briandfoy/module-extract-use
 
 =head1 AUTHOR
 
