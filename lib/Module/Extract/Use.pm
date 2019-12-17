@@ -36,9 +36,8 @@ Module::Extract::Use - Pull out the modules a module explicitly uses
 Extract the names of the modules used in a file using a static
 analysis. Since this module does not run code, it cannot find dynamic
 uses of modules, such as C<eval "require $class">. It only reports modules
-that the file loads directly. Modules loaded with C<parent> or C<base>,
-for instance, will will be in the import list for those pragmas but
-won't have separate entries in the data this module returns.
+that the file loads directly or are in the import lists for M<parent>
+or M<base>.
 
 =cut
 
@@ -73,12 +72,12 @@ sub init {
 
 =item get_modules( FILE )
 
-Returns a list of namespaces explicity use-d in FILE. Returns undef if the
-file does not exist or if it can't parse the file.
+Returns a list of namespaces explicity use-d in FILE. Returns undef if
+the file does not exist or if it can't parse the file.
 
-Each used namespace is only in the list even if it is used multiple times
-in the file. The order of the list does not correspond to anything so don't
-use the order to infer anything.
+Each used namespace is only in the list even if it is used multiple
+times in the file. The order of the list does not correspond to
+anything so don't use the order to infer anything.
 
 =cut
 
@@ -104,6 +103,7 @@ explicitly use-d in FILE. Each reference has keys for:
 	version   - defined if a module version was specified
 	imports   - an array reference to the import list
 	pragma    - true if the module thinks this namespace is a pragma
+	direct    - false if the module name came from parent or base
 
 Each used namespace is only in the list even if it is used multiple
 times in the file. The order of the list does not correspond to
@@ -304,7 +304,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2017, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+Copyright © 2008-2020, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
 
 This project is under the Artistic License 2.0.
 
