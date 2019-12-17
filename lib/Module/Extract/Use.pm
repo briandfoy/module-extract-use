@@ -36,8 +36,8 @@ Module::Extract::Use - Pull out the modules a module explicitly uses
 Extract the names of the modules used in a file using a static
 analysis. Since this module does not run code, it cannot find dynamic
 uses of modules, such as C<eval "require $class">. It only reports modules
-that the file loads directly or are in the import lists for M<parent>
-or M<base>.
+that the file loads directly or are in the import lists for L<parent>
+or L<base>.
 
 =cut
 
