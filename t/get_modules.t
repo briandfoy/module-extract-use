@@ -63,9 +63,9 @@ subtest rt79273 => sub {
 	ok( -e $file, "Test file [$file] is there" );
 
 	my @modules = sort { $a cmp $b } $extor->get_modules( $file );
-	is( scalar @modules, 2 );
+	is( scalar @modules, 3 );
 
-	is_deeply( \@modules, [qw(Capture::Tiny parent)] );
+	is_deeply( \@modules, [qw(CGI::Snapp Capture::Tiny parent)] );
 	};
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

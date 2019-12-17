@@ -32,6 +32,7 @@ print Dumper( $details ), "\n"; use Data::Dumper;
 sub expected {
 	return  [
           {
+            'direct'  => 1,
             'content' => 'use HTTP::Size 1.23;',
             'pragma'  => '',
             'version' => '1.23',
@@ -39,6 +40,7 @@ sub expected {
             'module'  => 'HTTP::Size'
           },
           {
+            'direct'  => 1,
             'content' => 'use YAML::Syck 1.54 qw(LoadFile);',
             'pragma'  => '',
             'version' => '1.54',
@@ -46,6 +48,7 @@ sub expected {
             'module'  => 'YAML::Syck'
           },
           {
+            'direct'  => 1,
             'content' => 'use LWP::Simple 6.1 qw(getstore);',
             'pragma'  => '',
             'version' => '6.1',

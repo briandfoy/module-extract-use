@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.043';
+$VERSION = '1.043_01';
 
 =encoding utf8
 
@@ -152,6 +152,7 @@ sub _get_ppi_for_file {
 		grep { ! $Seen{ $_->{module} }++ && $_->{module} }
 		map  {
 			my $hash = bless {
+				direct  => 1,
 				content => $_->content,
 				pragma  => $_->pragma,
 				module  => $_->module,
@@ -160,12 +161,36 @@ sub _get_ppi_for_file {
 				}, 'Module::Extract::Use::Item';
 			} @$modules;
 
+	# The base and parent pragmas
+	my @isa_modules =
+		map {
+			my $pragma = $_;
+			map {
+				bless {
+					content => $pragma->content,
+					pragma  => undef,
+					direct  => 0,
+					module  => $_,
+					imports => [],
+					version => undef,
+					}, 'Module::Extract::Use::Item';
+				} $pragma->imports->@*;
+			}
+		grep { $_->module eq 'parent' or $_->module eq 'base' }
+		@modules;
+
+say STDERR "isa_modules: @isa_modules";
+
+	push @modules, @isa_modules;
+
 	return \@modules;
 	}
 
 BEGIN {
 package Module::Extract::Use::Item;
 
+sub direct  { $_[0]->{direct}  }
+sub content { $_[0]->{content} }
 sub pragma  { $_[0]->{pragma}  }
 sub module  { $_[0]->{module}  }
 sub imports { $_[0]->{imports} }
@@ -208,12 +233,6 @@ sub error        { $_[0]->{error} }
 =back
 
 =head1 TO DO
-
-=over 4
-
-=item * Make it recursive, so it scans the source for any module that it finds.
-
-=back
 
 =head1 SEE ALSO
 
