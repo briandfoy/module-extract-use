@@ -90,9 +90,9 @@ sub get_modules {
 	my $details = $self->get_modules_with_details( $file );
 	return unless defined $details;
 
-	my @modules =
-		map { $_->{module} }
-		@$details;
+	my @modules = map { $_->module } @$details;
+
+	@modules;
 	}
 
 =item get_modules_with_details( FILE )
@@ -117,7 +117,7 @@ sub get_modules_with_details {
 	$self->_clear_error;
 
 	my $modules = $self->_get_ppi_for_file( $file );
-	return unless defined $modules;
+	return [] unless defined $modules;
 
 	$modules;
 	}
@@ -138,6 +138,32 @@ sub _get_ppi_for_file {
 		return;
 		}
 
+	# this handles the
+	#   use Foo;
+	#   use Bar;
+	my $regular_modules = $self->_regular_load( $Document );
+
+	# this handles
+	#   use parent qw(...)
+	my $isa_modules      = $self->_isa_load( $regular_modules );
+
+	# this handles
+	#   my $rc = require Foo;
+	my $expression_loads = $self->_expression_load( $Document );
+
+	my @modules = map { @$_ }
+		$regular_modules,
+		$isa_modules,
+		$expression_loads
+		;
+
+	return \@modules;
+	}
+
+
+sub _regular_load {
+	my( $self, $Document ) = @_;
+
 	my $modules = $Document->find(
 		sub {
 			$_[1]->isa( 'PPI::Statement::Include' )  &&
@@ -145,7 +171,7 @@ sub _get_ppi_for_file {
 			}
 		);
 
-	return unless $modules;
+	return [] unless $modules;
 
 	my %Seen;
 	my @modules =
@@ -161,29 +187,57 @@ sub _get_ppi_for_file {
 				}, 'Module::Extract::Use::Item';
 			} @$modules;
 
-	# The base and parent pragmas
+	\@modules;
+	}
+
+sub _isa_load {
+	my( $self, $modules ) = @_;
 	my @isa_modules =
 		map {
-			my $pragma = $_;
+			my $m = $_;
 			map {
 				bless {
-					content => $pragma->content,
+					content => $m->content,
 					pragma  => undef,
 					direct  => 0,
 					module  => $_,
 					imports => [],
 					version => undef,
 					}, 'Module::Extract::Use::Item';
-				} $pragma->imports->@*;
+				} $m->imports->@*;
 			}
 		grep { $_->module eq 'parent' or $_->module eq 'base' }
-		@modules;
+		@$modules;
 
-say STDERR "isa_modules: @isa_modules";
+	\@isa_modules;
+	}
 
-	push @modules, @isa_modules;
+sub _expression_load {
+	my( $self, $Document ) = @_;
 
-	return \@modules;
+	my $in_statements = $Document->find(
+		sub {
+			$_[1]->isa( 'PPI::Token::Word' ) &&
+			$_[1]->content eq 'require'
+			}
+		);
+
+	return [] unless $in_statements;
+
+	my @modules =
+		map {
+			bless {
+				content => $_->parent->content,
+				pragma  => undef,
+				direct  => 1,
+				module  => $_->snext_sibling->content,
+				imports => [],
+				version => undef,
+				}, 'Module::Extract::Use::Item';
+			}
+		@$in_statements;
+
+	\@modules;
 	}
 
 BEGIN {
