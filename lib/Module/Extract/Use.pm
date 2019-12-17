@@ -217,7 +217,7 @@ sub error        { $_[0]->{error} }
 
 =head1 SEE ALSO
 
-L<Module::ScanDeps>
+L<Module::ScanDeps>, L<Module::Extract>
 
 =head1 SOURCE AVAILABILITY
 
