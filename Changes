@@ -1,5 +1,8 @@
 Revision history for Perl module Module::Extract::Use
 
+1.043_02 2019-12-17T12:55:00Z
+	* Small fixes
+
 1.043_01 2019-12-17T12:29:57Z
 	* handle a couple of new cases:
 	- include the modules specified by parent or base
