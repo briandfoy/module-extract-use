@@ -33,7 +33,7 @@ subtest this_file => sub {
 	ok( -e $test, "Test file is there" );
 
 	my %modules = map { $_, 1 } $extor->get_modules( $test );
-	ok( ! $extor->error, "No error for parseable file [$test]");
+	ok( ! $extor->error, "No error for parseable file [$test]" );
 
 	foreach my $module ( qw(Test::More File::Basename File::Spec::Functions strict) ) {
 		ok( exists $modules{$module}, "Found $module" );
