@@ -160,7 +160,6 @@ sub _get_ppi_for_file {
 	return \@modules;
 	}
 
-
 sub _regular_load {
 	my( $self, $Document ) = @_;
 
@@ -204,7 +203,7 @@ sub _isa_load {
 					imports => [],
 					version => undef,
 					}, 'Module::Extract::Use::Item';
-				} $m->imports->@*;
+				} @{ $m->imports };
 			}
 		grep { $_->module eq 'parent' or $_->module eq 'base' }
 		@$modules;
