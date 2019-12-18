@@ -21,7 +21,7 @@ my $file = catfile( qw(corpus RT79273.pm) );
 ok( -e $file, "Test file [$file] is there" );
 
 my $details = $extor->get_modules_with_details( $file );
-is( scalar @$details, 2, 'There are the right number of hits' );
+is( scalar @$details, 3, 'There are the right number of hits' );
 
 is_deeply( $details, expected(), 'The data structures match' );
 }
@@ -29,6 +29,7 @@ is_deeply( $details, expected(), 'The data structures match' );
 sub expected {
 	return  [
           {
+            'direct' => 1,
             'content' => 'use parent \'CGI::Snapp\';',
             'pragma' => 'parent',
             'version' => undef,
@@ -36,11 +37,20 @@ sub expected {
             'module' => 'parent'
           },
           {
+            'direct' => 1,
             'content' => 'use Capture::Tiny \'capture\';',
             'pragma' => '',
             'version' => undef,
             'imports' => [qw(capture)],
             'module' => 'Capture::Tiny'
           },
+          {
+            'direct' => 0,
+            'content' => 'use parent \'CGI::Snapp\';',
+            'pragma' => undef,
+            'version' => undef,
+            'imports' => [],
+            'module' => 'CGI::Snapp'
+           },
 	];
 	}
