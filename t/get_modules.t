@@ -27,6 +27,19 @@ subtest missing => sub {
 	};
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Try it with a file that doesn't exist, should fail
+subtest non_perl => sub {
+	my $non_perl = 'corpus';
+	ok( -e $non_perl, "Non-perl file is actually missing" );
+
+	my $result = $extor->get_modules( $non_perl );
+	is( $result, 0, "Non-perl file returns 0 in scalar context" );
+
+	my @results = $extor->get_modules( $non_perl );
+	is( scalar @results, 0, "Non-perl file returns empty list in list context" );
+	};
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Try it with this file
 subtest this_file => sub {
 	my $test = $0;

@@ -117,8 +117,8 @@ sub init {
 
 =item get_modules( FILE )
 
-Returns a list of namespaces explicity use-d in FILE. Returns undef if
-the file does not exist or if it can't parse the file.
+Returns a list of namespaces explicity use-d in FILE. Returns the
+empty list if the file does not exist or if it can't parse the file.
 
 Each used namespace is only in the list even if it is used multiple
 times in the file. The order of the list does not correspond to
@@ -132,7 +132,6 @@ sub get_modules {
 	$self->_clear_error;
 
 	my $details = $self->get_modules_with_details( $file );
-	return unless defined $details;
 
 	my @modules = map { $_->module } @$details;
 

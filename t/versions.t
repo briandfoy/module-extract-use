@@ -22,10 +22,18 @@ ok( -e $file, "Test file [$file] is there" );
 
 my $details = $extor->get_modules_with_details( $file );
 is( scalar @$details, 3 );
-#diag( Dumper( $details ) ); use Data::Dumper;
+
+my $first = $details->[0];
+foreach my $key ( keys %$first ) {
+	can_ok( $first, $key );
+	}
+is( $first->direct,     1            );
+like( $first->content,  qr/\Ause\b/  );
+ok( ! $first->pragma                 );
+is( $first->version,    '1.23'       );
+is( $first->module,     'HTTP::Size' );
 
 is_deeply( $details, expected() );
-print Dumper( $details ), "\n"; use Data::Dumper;
 }
 
 
