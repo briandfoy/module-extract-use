@@ -209,8 +209,7 @@ sub _regular_load {
 
 	my $modules = $Document->find(
 		sub {
-			$_[1]->isa( 'PPI::Statement::Include' )  &&
-				( $_[1]->type eq 'use' || $_[1]->type eq 'require' )
+			$_[1]->isa( 'PPI::Statement::Include' )
 			}
 		);
 
