@@ -1,5 +1,8 @@
 Revision history for Perl module Module::Extract::Use
 
+1.045 2019-12-19T12:19:24Z
+	* Fix test for extracting modules from parent and base
+
 1.044 2019-12-18T02:38:56Z
 	* Bump this to a user release.
 
