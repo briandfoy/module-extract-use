@@ -7,7 +7,7 @@ no warnings;
 use subs qw();
 use vars qw($VERSION);
 
-$VERSION = '1.044';
+$VERSION = '1.045';
 
 =encoding utf8
 
@@ -240,7 +240,7 @@ sub _isa_load {
 			map {
 				bless {
 					content => $m->content,
-					pragma  => undef,
+					pragma  => '',
 					direct  => 0,
 					module  => $_,
 					imports => [],
