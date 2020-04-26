@@ -9,13 +9,15 @@ use warnings;
 use Pod::Usage;
 use Getopt::Std qw(getopts);
 
+=encoding utf8
+
 =head1 NAME
 
 extract_modules - determine which Perl modules a given file uses
 
 =cut
 
-our $VERSION = '1.101';
+our $VERSION = '1.102';
 
 getopts('cjl0', \my %opts);
 
@@ -206,7 +208,7 @@ brian d foy C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright © 2009-2017, brian d foy <bdfoy@cpan.org>. All rights reserved.
+Copyright © 2009-2020, brian d foy <bdfoy@cpan.org>. All rights reserved.
 
 You can use this script under the same terms as Perl itself.
 
