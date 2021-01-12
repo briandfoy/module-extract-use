@@ -63,3 +63,6 @@
 \.releaserc
 \.lwpcookies
 Module-.*
+\bMANIFEST\s\d
+\bChanges\s\d
+
