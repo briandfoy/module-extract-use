@@ -65,6 +65,6 @@
 Module-.*
 \bMANIFEST\s\d
 \bChanges\s\d
-
+\.icloud$
 \A\.github\b
 
