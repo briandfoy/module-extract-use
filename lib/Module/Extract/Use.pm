@@ -259,8 +259,11 @@ sub _expression_load {
 
 	my $in_statements = $Document->find(
 		sub {
+			my $sib;
 			$_[1]->isa( 'PPI::Token::Word' ) &&
-			$_[1]->content eq 'require'
+			$_[1]->content eq 'require' &&
+			( $sib = $_[1]->snext_sibling() ) &&
+			$sib->isa( 'PPI::Token::Word' )
 			}
 		);
 
