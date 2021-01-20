@@ -29,6 +29,7 @@ is_deeply( $details, expected(), 'The data structures match' );
 sub expected {
 	return  [
           {
+            'direct' => 1,
           	'direct'  => 1,
             'content' => 'use parent \'CGI::Snapp\';',
             'pragma'  => 'parent',
@@ -37,6 +38,7 @@ sub expected {
             'module'  => 'parent'
           },
           {
+            'direct' => 1,
           	'direct'  => 1,
             'content' => 'use Capture::Tiny \'capture\';',
             'pragma' => '',
@@ -45,6 +47,13 @@ sub expected {
             'module' => 'Capture::Tiny'
           },
           {
+            'direct' => 0,
+            'content' => 'use parent \'CGI::Snapp\';',
+            'pragma' => undef,
+            'version' => undef,
+            'imports' => [],
+            'module' => 'CGI::Snapp'
+           },
           	'direct'  => 0,
             'content' => 'use parent \'CGI::Snapp\';',
             'pragma'  => '',
