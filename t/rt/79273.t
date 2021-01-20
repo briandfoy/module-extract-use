@@ -30,14 +30,16 @@ sub expected {
 	return  [
           {
             'direct' => 1,
+          	'direct'  => 1,
             'content' => 'use parent \'CGI::Snapp\';',
-            'pragma' => 'parent',
+            'pragma'  => 'parent',
             'version' => undef,
             'imports' => [qw(CGI::Snapp)],
-            'module' => 'parent'
+            'module'  => 'parent'
           },
           {
             'direct' => 1,
+          	'direct'  => 1,
             'content' => 'use Capture::Tiny \'capture\';',
             'pragma' => '',
             'version' => undef,
@@ -52,5 +54,12 @@ sub expected {
             'imports' => [],
             'module' => 'CGI::Snapp'
            },
+          	'direct'  => 0,
+            'content' => 'use parent \'CGI::Snapp\';',
+            'pragma'  => '',
+            'version' => undef,
+            'imports' => [],
+            'module'  => 'CGI::Snapp'
+          },
 	];
 	}
