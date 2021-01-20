@@ -1,3 +1,5 @@
+use v5.10;
+
 package Module::Extract::Use;
 use strict;
 
