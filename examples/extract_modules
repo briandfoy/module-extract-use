@@ -17,7 +17,7 @@ extract_modules - determine which Perl modules a given file uses
 
 =cut
 
-our $VERSION = '1.103';
+our $VERSION = '1.104';
 
 getopts('ecjl0', \my %opts);
 
