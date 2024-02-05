@@ -344,11 +344,11 @@ The source code is in Github:
 
 =head1 AUTHOR
 
-brian d foy, C<< <bdfoy@cpan.org> >>
+brian d foy, C<< <briandfoy@pobox.com> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2023, brian d foy C<< <bdfoy@cpan.org> >>. All rights reserved.
+Copyright © 2008-2023, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
 
 This project is under the Artistic License 2.0.
 
