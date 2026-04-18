@@ -56,7 +56,7 @@ load a module once (and may be faster):
 		}
 
 Additionally, it finds module names used with C<parent> and C<base>,
-either of which establish an inheritance relationship:
+either of which establishes an inheritance relationship:
 
 	use parent qw(Foo);
 	use base qw(Foo);
@@ -338,7 +338,7 @@ L<Module::ScanDeps>, L<Module::Extract>
 
 =head1 SOURCE AVAILABILITY
 
-The source code is in Github:
+The source code is on GitHub:
 
 	https://github.com/briandfoy/module-extract-use
 
