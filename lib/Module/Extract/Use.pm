@@ -1,4 +1,5 @@
 use v5.10;
+use utf8;
 
 package Module::Extract::Use;
 use strict;
