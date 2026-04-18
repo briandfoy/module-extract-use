@@ -1,13 +1,12 @@
 #!/usr/bin/perl
-
-use utf8;
 use v5.10;
+use utf8;
 
 use open qw(:std :utf8);
 use strict;
 use warnings;
 
-use Pod::Usage;
+use File::Spec::Functions qw(catfile);
 use Getopt::Std qw(getopts);
 
 =encoding utf8
@@ -70,6 +69,9 @@ with C<use> or C<require>.
 	requires 'strict';
 	requires 'warnings';
 
+	# look for the file in PATH
+	$ extract_modules -b some_program
+
 =head1 DESCRIPTION
 
 This script does not execute the code in the files it examines. It
@@ -81,6 +83,8 @@ string eval.
 =head2 Command-line options
 
 =over 4
+
+=item * -b  look for filename in current directory or in PATH
 
 =item * -c  cpanfile output
 
@@ -98,11 +102,18 @@ run(@ARGV) unless caller;
 
 sub run {
 	my @args = @_;
-	getopts('ecjl0', \my %opts);
+
+	my %opts;
+	{
+	local @ARGV = @args;
+	getopts('bcejl0', \%opts);
+	@args = @ARGV;
+	}
 
 	# if no parameters are passed, give usage information
 	unless( @args ) {
-		pod2usage( msg => 'Please supply at least one filename to analyze' );
+		require Pod::Usage;
+		Pod::Usage::pod2usage( msg => 'Please supply at least one filename to analyze' );
 		exit;
 		}
 
@@ -125,12 +136,36 @@ sub run {
 		( $object, $method, $sub ) = ( $module->new, @{ $methods{$module} } );
 		}
 
-	die "No usable file scanner module found; exiting...\n" .
-		"Install one of these modules to make this program work:\n" .
-		join( "\n\t", sort keys %methods ) .
-		"\n"
+	die join(
+			"\n\t",
+			"Install one of these modules to make this program work:",
+			sort keys %methods
+			) . "\n"
 		unless defined $object;
 
+	if( $opts{'b'} ) {
+		require Config;
+		my @dirs = split /\Q$Config::Config{'path_sep'}/, $ENV{'PATH'};
+
+		my @found_args;
+		FILE: foreach my $file ( @args ) {
+			if( -e $file ) {
+				push @found_args, $file;
+				next FILE;
+				}
+
+			foreach my $dir ( @dirs ) {
+				print STDERR "Looking in $dir\n";
+				my $path = catfile $dir, $file;
+				if( -e $path ) {
+					push @found_args, $path;
+					next FILE;
+					}
+				}
+			}
+
+		@args = @found_args;
+		}
 
 	my @Grand_modules;
 	foreach my $file ( @args ) {
@@ -226,7 +261,6 @@ sub long_list {
 
 	printf "%d module(s) in core, %d external module(s)\n\n", $core, $extern;
 	}
-
 }
 
 =back
@@ -248,4 +282,5 @@ You can use this script under the same terms as Perl itself.
 L<Module::Extract::Use>,
 L<Module::ExtractUse>,
 L<Module::ScanDeps>,
+
 =cut
