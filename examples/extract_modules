@@ -73,7 +73,7 @@ with C<use> or C<require>.
 
 This script does not execute the code in the files it examines. It
 uses the C<Module::Extract::Use> or C<Module::ExtractUse> modules
-which statically analyze the source without compiling or running it.
+which statically analyzes the source without compiling or running it.
 These modules cannot discover modules loaded dynamically through a
 string eval.
 
@@ -87,9 +87,9 @@ string eval.
 
 =item * -j  JSON output
 
-=item * -l  succint list, one module per line
+=item * -l  succinct list, one module per line
 
-=item * -0  succint list, modules null separated (for xargs -0)
+=item * -0  succinct list, modules null separated (for xargs -0)
 
 =cut
 
